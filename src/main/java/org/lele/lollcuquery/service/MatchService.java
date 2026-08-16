@@ -1,6 +1,6 @@
 package org.lele.lollcuquery.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import tools.jackson.databind.JsonNode;
 import org.lele.lollcuquery.api.dto.MatchDetail;
 import org.lele.lollcuquery.api.dto.MatchListResponse;
 import org.lele.lollcuquery.api.dto.MatchParticipant;

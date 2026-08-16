@@ -1,6 +1,6 @@
 package org.lele.lollcuquery.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import tools.jackson.databind.JsonNode;
 import org.lele.lollcuquery.api.dto.RankedQueue;
 import org.lele.lollcuquery.api.dto.SummonerSummary;
 import org.lele.lollcuquery.lcu.LcuHttpClient;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -64,9 +63,7 @@ public class SummonerService {
         JsonNode queueMap = root.path("queueMap");
         List<RankedQueue> queues = new ArrayList<>();
         if (queueMap.isObject()) {
-            Iterator<String> names = queueMap.fieldNames();
-            while (names.hasNext()) {
-                String key = names.next();
+            for (String key : queueMap.propertyNames()) {
                 JsonNode node = queueMap.get(key);
                 String tier = Jsons.text(node, "tier");
                 if (tier.isBlank() || "NONE".equalsIgnoreCase(tier) || "NA".equalsIgnoreCase(tier)) {

@@ -1,7 +1,7 @@
 package org.lele.lollcuquery.lcu;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
@@ -24,7 +24,7 @@ public class LcuHttpClient {
 
     private final LcuConnection connection;
     private final RestClient restClient;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final JsonMapper jsonMapper = JsonMapper.builder().build();
 
     public LcuHttpClient(LcuConnection connection) {
         this.connection = connection;
@@ -72,9 +72,9 @@ public class LcuHttpClient {
                 .body(String.class);
         try {
             if (body == null || body.isBlank()) {
-                return objectMapper.nullNode();
+                return jsonMapper.nullNode();
             }
-            return objectMapper.readTree(body.getBytes(StandardCharsets.UTF_8));
+            return jsonMapper.readTree(body.getBytes(StandardCharsets.UTF_8));
         } catch (Exception ex) {
             throw new IllegalStateException("Failed to parse LCU JSON from " + url, ex);
         }
